@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en" data-theme="midnight">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#07060d">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Truth Lens</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='27' cy='27' r='17' fill='none' stroke='%23b57bff' stroke-width='6'/%3E%3Cpath d='M40 40l16 16' stroke='%23b57bff' stroke-width='7' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/mobile.css">
+</head>
+<body data-tab="check">
+  <canvas id="scene" aria-hidden="true"></canvas>
+
+  <header class="top">
+    <div class="brand">
+      <svg viewBox="0 0 32 32" width="24" height="24" aria-hidden="true"><circle cx="13" cy="13" r="8.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M20 20l8 8" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/></svg>
+      <span>Truth Lens</span>
+    </div>
+    <button class="pill" id="authBtn" type="button">Log in</button>
+  </header>
+
+  <main class="screens">
+    <section class="screen active" data-screen="check" aria-label="Check a claim">
+      <div class="hero">
+        <p class="eyebrow">Claim checker</p>
+        <h1 class="hero-title" aria-label="Hold every claim up to the light.">
+          <span style="--i:0">Hold</span> <span style="--i:1">every</span>
+          <span style="--i:2">claim</span><br>
+          <span style="--i:3">up</span> <span style="--i:4">to</span> <span style="--i:5">the</span>
+          <span style="--i:6" class="em">light.</span>
+        </h1>
+        <p class="lede">Drag your finger across this area to move the lens. Or turn on tilt and steer it with your phone.</p>
+        <button class="chip" id="tiltBtn" type="button">Enable tilt control</button>
+      </div>
+
+      <div class="samples" aria-label="Examples">
+        <button type="button" class="chip" data-sample="The Great Wall of China is visible from space">Great Wall from space</button>
+        <button type="button" class="chip" data-sample="Humans only use 10% of their brains">The 10% brain myth</button>
+        <button type="button" class="chip" data-sample="Lightning never strikes the same place twice">Lightning twice</button>
+      </div>
+
+      <h2 class="kicker">How it works</h2>
+      <div class="snap">
+        <article class="snapcard"><span>01</span><h3>Read the claim</h3><p>We keep the key terms and drop the filler words.</p></article>
+        <article class="snapcard"><span>02</span><h3>Search real sources</h3><p>Published fact-checks, Wikipedia and news coverage.</p></article>
+        <article class="snapcard"><span>03</span><h3>Show the evidence</h3><p>We say true or false only when fact-checkers have.</p></article>
+      </div>
+    </section>
+
+    <section class="screen" data-screen="results" aria-label="Results">
+      <div id="resultsBody"><p class="empty">Nothing checked yet. Type a claim on the Check tab.</p></div>
+    </section>
+
+    <section class="screen" data-screen="history" aria-label="History">
+      <div id="historyBody"></div>
+    </section>
+  </main>
+
+  <form class="composer" id="claimForm">
+    <label class="sr" for="claim">Claim to check</label>
+    <textarea id="claim" rows="1" maxlength="500" placeholder="Paste a claim to check…"></textarea>
+    <button class="send" id="sendBtn" type="submit" aria-label="Check claim">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </form>
+
+  <nav class="tabbar" aria-label="Main">
+    <button type="button" data-go="check" aria-current="page">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>
+      <span>Check</span>
+    </button>
+    <button type="button" data-go="results">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+      <span>Results</span>
+    </button>
+    <button type="button" data-go="history">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>
+      <span>History</span>
+    </button>
+    <button type="button" data-open="settingsSheet">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>
+      <span>Settings</span>
+    </button>
+  </nav>
+
+  <div class="scrim" id="scrim"></div>
+
+  <!-- Login / sign up -->
+  <div class="sheet" id="authSheet" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <div class="grab"></div>
+    <h2 id="authTitle">Log in</h2>
+    <div class="seg2" role="tablist">
+      <button type="button" id="tabLogin" role="tab" aria-selected="true">Log in</button>
+      <button type="button" id="tabRegister" role="tab" aria-selected="false">Create account</button>
+    </div>
+    <form id="authForm" novalidate>
+      <label class="field" id="nameField" hidden><span>Name</span><input name="name" autocomplete="name" maxlength="60"></label>
+      <label class="field"><span>Email</span><input name="email" type="email" autocomplete="email" inputmode="email" required></label>
+      <label class="field"><span>Password</span><input name="password" type="password" autocomplete="current-password" minlength="8" required></label>
+      <p class="err" id="authErr" role="alert"></p>
+      <button class="btn solid wide" id="authSubmit" type="submit">Log in</button>
+    </form>
+  </div>
+
+  <!-- Settings -->
+  <div class="sheet" id="settingsSheet" role="dialog" aria-modal="true" aria-labelledby="setTitle">
+    <div class="grab"></div>
+    <div class="sheet-head"><h2 id="setTitle">Settings</h2><button class="x" type="button" data-close aria-label="Close settings">&times;</button></div>
+
+    <div class="set">
+      <h3>Colour theme</h3>
+      <div class="swatches" id="mThemes" role="radiogroup" aria-label="Colour theme"></div>
+    </div>
+
+    <div class="set">
+      <h3>Reading</h3>
+      <div class="row"><span>Text size</span>
+        <div class="seg" data-k="fontSize" role="radiogroup" aria-label="Text size">
+          <button type="button" role="radio" data-v="s">S</button><button type="button" role="radio" data-v="m">M</button><button type="button" role="radio" data-v="l">L</button>
+        </div></div>
+      <div class="row"><span>Evidence language</span>
+        <div class="seg" data-k="lang" role="radiogroup" aria-label="Evidence language">
+          <button type="button" role="radio" data-v="en">English</button><button type="button" role="radio" data-v="hi">हिन्दी</button><button type="button" role="radio" data-v="mr">मराठी</button>
+        </div></div>
+    </div>
+
+    <div class="set">
+      <h3>Magnifier</h3>
+      <label class="row"><span>Show the lens</span><input type="checkbox" role="switch" data-k="lensOn"></label>
+      <label class="row stack"><span>Lens size</span><input type="range" min="0.9" max="1.8" step="0.05" data-k="lensSize"></label>
+      <div class="row"><span>3D quality</span>
+        <div class="seg" data-k="quality" role="radiogroup" aria-label="3D quality">
+          <button type="button" role="radio" data-v="auto">Auto</button><button type="button" role="radio" data-v="low">Low</button><button type="button" role="radio" data-v="balanced">Med</button><button type="button" role="radio" data-v="high">High</button>
+        </div></div>
+      <label class="row"><span>Reduce motion</span><input type="checkbox" role="switch" data-k="reduceMotion"></label>
+    </div>
+
+    <div class="set">
+      <h3>Checking</h3>
+      <label class="row"><span>Include news</span><input type="checkbox" role="switch" data-k="news"></label>
+      <label class="row"><span>Save checks to history</span><input type="checkbox" role="switch" data-k="saveHistory"></label>
+      <ul class="sources" id="mSources"></ul>
+    </div>
+
+    <div class="set" id="mAccount"></div>
+
+    <div class="set"><a class="linkish" href="/?view=desktop">Switch to the desktop site</a></div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="/mobile.js"></script>
+</body>
+</html>

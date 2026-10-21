@@ -1,0 +1,21 @@
+{
+  "name": "truth-lens",
+  "version": "1.0.0",
+  "description": "Truth Lens - a 3D claim-checking website with accounts and search history",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "three": "^0.170.0"
+  },
+  "optionalDependencies": {
+    "better-sqlite3": "^11.7.0"
+  }
+}
